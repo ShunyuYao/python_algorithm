@@ -6,6 +6,18 @@
 中位数：偶数个是中间两个数的平均值，奇数个就是中间的值
 """
 # to do: 代码不够简洁
+even_mid = []
+def cal_mid(even, k, total_len, temp):
+    if even:
+        if k == total_len // 2 - 1:
+            even_mid.append(temp)
+        if k == total_len // 2:
+            return (even_mid[0] + temp) / 2
+    else:
+        if k == total_len // 2:
+            return temp
+    return None
+
 def find_mid_of_two_arr(arr1, arr2):
     i = j = k = 0
     total_len = len(arr1) + len(arr2)
@@ -18,17 +30,27 @@ def find_mid_of_two_arr(arr1, arr2):
         else:
             temp = arr2[j]
             j += 1
-        if even:
-            if k == total_len // 2 - 1:
-                even_mid = temp
-            if k == total_len // 2:
-                even_mid += temp
-                even_mid = even_mid / 2
-                return even_mid
-        else:
-            if k == total_len // 2:
-                return temp
+        result = cal_mid(even, k, total_len, temp)
+        if result:
+            return result
         k += 1
+
+    while i < len(arr1):
+        temp = arr1[i]
+        i += 1
+        result = cal_mid(even, k, total_len, temp)
+        if result:
+            return result
+        k += 1
+
+    while j < len(arr2):
+        temp = arr2[j]
+        j += 1
+        result = cal_mid(even, k, total_len, temp)
+        if result:
+            return result
+        k += 1
+
     return []
 
 if __name__ == '__main__':
@@ -37,6 +59,6 @@ if __name__ == '__main__':
 
     arr3 = [1, 3, 9]
     arr4 = [1, 4]
-    mid = find_mid_of_two_arr([2], [2])
+    mid = find_mid_of_two_arr([2,5], [2,7])
     # [1, 2, 3, 6, 7, 12, 15, 20]
     print(mid)
